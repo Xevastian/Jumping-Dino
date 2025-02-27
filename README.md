@@ -17,9 +17,9 @@ Make sure you have **Python 3.13.2 installed on your system. You may also need a
 1. Clone the repository:
    ```bash
    git clone https://github.com/Xevastian/Jumping-Dino
-   cd Jumping-Dino
+   cd Jumping-Dino/Feb
    ```
-2. Install dependencies (if required):
+2. Install dependencies:
    ```bash
    pip install pygame
    ```
