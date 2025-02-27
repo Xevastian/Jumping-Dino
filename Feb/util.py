@@ -6,13 +6,13 @@ def load_existing_save(savefile):
     return controls
 
 def write_save(data):
-    with open(os.path.join(os.getcwd(),'Feb/save.json'), 'w') as file:
+    with open(os.path.join(os.getcwd(),'save.json'), 'w') as file:
         json.dump(data, file)
 
 def load_save():
     try:
     # Save is loaded 
-        save = load_existing_save('Feb/save.json')
+        save = load_existing_save('save.json')
     except:
     # No save file, so create one
         save = create_save()
@@ -33,5 +33,5 @@ def create_save():
 def updateInput(role,key,value):
     data = load_save()
     data['controls'][role][key] = value
-    with open('Feb/save.json','w') as f:
+    with open('save.json','w') as f:
         f.write(json.dumps(data))

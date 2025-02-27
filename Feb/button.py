@@ -9,7 +9,7 @@ class Button:
         self.text = text
 
     def draw(self,screen):
-        font = pygame.font.Font('Feb/FreeSansBold.ttf', 32) 
+        font = pygame.font.Font('FreeSansBold.ttf', 32) 
         ButtonText = font.render(self.text,True,"Black")
         textRect = ButtonText.get_rect()
         textRect.center = (self.x,self.y)
@@ -28,7 +28,7 @@ class SettingsButton(Button):
         self.size = size
     
     def draw(self,screen):
-        font = pygame.font.Font('Feb/FreeSansBold.ttf', 20) 
+        font = pygame.font.Font('FreeSansBold.ttf', 20) 
         color = "Blue" if self.isActivated else "Red"
         ButtonText = font.render(pygame.key.name(self.ctrl),True,"Black")
         desc = font.render(self.text,True,"Black")
@@ -45,7 +45,7 @@ class SkillsButton(Button):
         self.size = size
     
     def draw(self,screen):
-        font = pygame.font.Font('Feb/FreeSansBold.ttf', 20) 
+        font = pygame.font.Font('FreeSansBold.ttf', 20) 
         color = "Blue" if self.isActivated else "Red"
         ButtonText = font.render(self.text,True,"Black")
         textRect = ButtonText.get_rect()

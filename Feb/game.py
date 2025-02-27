@@ -35,7 +35,7 @@ class Game:
         self.obs4 = Obstacle(random.randint(level[0],level[1]),180, level,speed)
 
         # Fora game over and scoring
-        self.font = pygame.font.Font('Feb/FreeSansBold.ttf', 32) # setting font
+        self.font = pygame.font.Font('FreeSansBold.ttf', 32) # setting font
         self.text = self.font.render('Game Over', True, "Black")
         self.textRect1 = self.text.get_rect()
         self.textRect1.center = (640,450)

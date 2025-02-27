@@ -47,14 +47,14 @@ def get_SkillButtons():
 
 def settings():
     
-    font = pygame.font.Font('Feb/FreeSansBold.ttf', 20) 
+    font = pygame.font.Font('FreeSansBold.ttf', 20) 
     p1Text, p2Text = font.render("Player 1", True, "Black"), font.render("Player 2", True, "Black")
     p1Rect,p2Rect = p1Text.get_rect(), p2Text.get_rect()
     p1Rect.center,p2Rect.center = (180,180),(480,180)
     skillsButton = get_SkillButtons()
 
     buttons = get_buttons()
-    font = pygame.font.Font('Feb/FreeSansBold.ttf', 20) 
+    font = pygame.font.Font('FreeSansBold.ttf', 20) 
     running = True
     backButton = Button(170,70,240, 80, "Back")
     while running:

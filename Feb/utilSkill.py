@@ -6,13 +6,13 @@ def load_existing_save(savefile):
     return controls
 
 def write_save(data):
-    with open(os.path.join(os.getcwd(),'Feb/saveSkill.json'), 'w') as file:
+    with open(os.path.join(os.getcwd(),'saveSkill.json'), 'w') as file:
         json.dump(data, file)
 
 def load_save_skill():
     try:
     # Save is loaded 
-        save = load_existing_save('Feb/saveSkill.json')
+        save = load_existing_save('saveSkill.json')
     except:
     # No save file, so create one
         save = create_save()
@@ -33,5 +33,5 @@ def create_save():
 def updateInputSkill(role,value):
     data = load_save_skill()
     data['skill'][role] = value.lower()
-    with open('Feb/saveSkill.json','w') as f:
+    with open('saveSkill.json','w') as f:
         f.write(json.dumps(data))
