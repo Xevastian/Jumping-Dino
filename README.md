@@ -11,7 +11,7 @@ Test your reflexes and strategy in **Local PvP Python Game**, a fast-paced **loc
 ## 🚀 Getting Started
 
 ### Prerequisites
-Make sure you have **Python 3.13.2 installed on your system. You may also need an additional library `pygame`.
+This program is written in Python 3.13.2. You may also need an additional library `pygame`.
 
 ### Installation
 1. Clone the repository:
@@ -19,7 +19,7 @@ Make sure you have **Python 3.13.2 installed on your system. You may also need a
    git clone https://github.com/Xevastian/Jumping-Dino
    cd Jumping-Dino/Feb
    ```
-2. Install dependencies:
+2. Install dependencies (if you still don't have pygame):
    ```bash
    pip install pygame
    ```
@@ -41,6 +41,7 @@ This project is licensed under the **MIT License**. Feel free to modify and shar
 
 ## 🤝 Contributing
 Pull requests are welcome! If you'd like to contribute, feel free to submit an issue or suggestion.
+For any issues encountered, try to contact me on Gmail: sumangvex@gmail.com
 
 ---
 
