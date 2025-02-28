@@ -3,10 +3,11 @@ from button import Button, SettingsButton, SkillsButton
 from util import load_save, updateInput
 from utilSkill import load_save_skill, updateInputSkill
 import pygame
+
 x,y = 1280,720
 screen = pygame.display.set_mode((x,y)) # Declaring window
 clock = pygame.time.Clock()
-
+bgImage = pygame.image.load('image/bg1.png')
 pygame.display.set_caption("Dino Game") # Title
 # gagawa ng menu loop
 
@@ -45,7 +46,7 @@ def get_SkillButtons():
 
     return buttons
 
-def settings():
+def settings(): 
     
     font = pygame.font.Font('FreeSansBold.ttf', 20) 
     p1Text, p2Text = font.render("Player 1", True, "Black"), font.render("Player 2", True, "Black")
@@ -85,7 +86,7 @@ def settings():
                         buttons = get_buttons()
                         
                 
-        screen.fill("White")
+        screen.blit(bgImage, (0, 0))
         backButton.draw(screen)
         for button in buttons: 
             button.draw(screen)
@@ -101,18 +102,6 @@ def main():
     StartButton = Button(x//2, (y//2) - 120, 240, 80, "Start")
     SettingsButton = Button(x//2,(y//2) ,240,80, "Settings")
     ExitButton = Button(x//2,(y//2) + 120,240,80, "Exit")
-    '''
-    count down
-    cooldown display
-
-    button2 for settings
-    settings display and input key manipulation
-    key bindings, skill picking, sfx, sfm, back button
-
-    button for single player(optional)
-
-    button for exit
-    '''
     running = True
     while running:
         mousepos = pygame.mouse.get_pos()
@@ -128,7 +117,7 @@ def main():
                 elif SettingsButton.isClicked(mousepos):
                     settings()
         
-        screen.fill("Green")
+        screen.blit(bgImage, (0, 0))
         StartButton.draw(screen)   
         SettingsButton.draw(screen)
         ExitButton.draw(screen) 

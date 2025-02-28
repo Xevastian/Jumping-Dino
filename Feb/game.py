@@ -15,13 +15,14 @@ class Game:
         self.save = load_save()
         self.start_time = time.monotonic()        # For counting scores
         self.clock = pygame.time.Clock()          # For game ticks #60 frames every second
-
+        self.bgImage = pygame.image.load('image/bg.png')
         self.x, self.y = 1280,720                       # Window size
         self.screen = screen
-        self.ground1 = pygame.Surface((1280, 100))
-        self.ground2 = pygame.Surface((1280, 100)) # setting grounds
-        self.ground1.fill('Green')
-        self.ground2.fill('Green')
+        self.groundImage = pygame.image.load('image/ground.png')
+        self.ground1 = self.groundImage.get_rect()
+        self.ground2 = self.groundImage.get_rect()
+        self.ground1.center = (640,670)
+        self.ground2.center = (640,310)
 
         # Setting Charaaacters and variables
         level = [0,3]
@@ -44,18 +45,22 @@ class Game:
 
     def start(self):
         # countdown
+       
+        p1SkillImage = pygame.image.load('image/' + self.player1.skill + '.png')
+        p2SkillImage = pygame.image.load('image/' + self.player2.skill + '.png')
         stage = 1
-        p1CD = Button(70,430,70,70,self.player1.SkillCooldown)
-        p2CD = Button(70,70,70,70,self.player2.SkillCooldown)
+        p1CD = p1SkillImage.get_rect()
+        p2CD = p2SkillImage.get_rect()
+        p1CD.center, p2CD.center = (70,430), (70,70)
         for i  in range(3,-1,-1):
             cd = self.font.render(str(i),True,"Black")
             cdRect = cd.get_rect()
             cdRect.center = (640,360)
-            self.screen.fill("White")
+            self.screen.blit(self.bgImage, (0, 0)) 
             self.player1.draw(self.screen) 
             self.player2.draw(self.screen) 
-            self.screen.blit(self.ground1,(0,620))
-            self.screen.blit(self.ground2,(0,260))
+            self.screen.blit(self.groundImage,self.ground1)
+            self.screen.blit(self.groundImage,self.ground2)
             self.screen.blit(cd,cdRect)
             pygame.display.update()
             self.clock.tick(60)
@@ -65,9 +70,11 @@ class Game:
         count = p1Score = p2Score = 0
         running = True
         ticks = 60
+        p1Key = self.save['controls']['player1']['Skill']
+        p2Key = self.save['controls']['player2']['Skill']
         while (self.player1.isAlive or self.player2.isAlive) and running:
             count += 1
-            # Events // key pressed
+            key = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -77,10 +84,13 @@ class Game:
                         self.player1.isJump = True
                     if event.key == self.save['controls']['player2']['Jump']:
                         self.player2.isJump = True
+                    if(event.key == p1Key and self.player1.SkillCooldown < 1 and self.player1.isAlive):
+                        self.player1.skillTrigger()
+                        print('hey')
+                    if(event.key == p2Key and self.player2.SkillCooldown < 1 and self.player2.isAlive): # meaning activate
+                        self.player2.skillTrigger()
+                        print('hey')
             
-            # Detecting key hold
-            key = pygame.key.get_pressed()
-
             # Movements
             self.player1.move(key,self.screen)
             self.player1.jump()
@@ -94,7 +104,7 @@ class Game:
             score2 = self.font.render(str(p2Score),True,"Black")
             scoreRect2 = score2.get_rect()
             scoreRect2.center = (1200,50)
-            self.screen.fill('White')
+            self.screen.blit(self.bgImage, (0, 0)) 
             self.screen.blit(score1,scoreRect1)
             self.screen.blit(score2,scoreRect2)
         
@@ -103,14 +113,20 @@ class Game:
                 if(self.player1.skill == 'shield' and self.player1.TimeCast > 0):
                     self.player1.isAlive = True
                 else:
+                    if self.player1.isAlive:
+                        time.sleep(3)
                     self.player1.isAlive = False
+                    
             if self.player1.isAlive:
                 self.player1.move(key,self.screen)
                 self.player1.jump()
                 self.obs1.draw(self.screen)
                 self.obs2.draw(self.screen)
-                p1CD.text = str(self.player1.SkillCooldown) if self.player1.SkillCooldown > 0 else ''
-                p1CD.draw(self.screen)
+                p1SkillCD = self.font.render(str(self.player1.SkillCooldown) if self.player1.SkillCooldown > 0 else '',True,"Black")
+                p1SkillCDRect = p1SkillCD.get_rect()
+                p1SkillCDRect.center = (70,430)
+                self.screen.blit(p1SkillImage,p1CD)
+                self.screen.blit(p1SkillCD,p1SkillCDRect)
                 if(count % 60 == 0):
                     p1Score += 1
             else:
@@ -120,14 +136,20 @@ class Game:
                 if(self.player2.skill == 'shield' and self.player2.TimeCast > 0):
                     self.player2.isAlive = True
                 else:
+                    if self.player2.isAlive:
+                        time.sleep(3)
                     self.player2.isAlive = False
+                    
             if self.player2.isAlive:
                 self.player2.move(key,self.screen)
                 self.player2.jump()
                 self.obs3.draw(self.screen)
                 self.obs4.draw(self.screen)
-                p2CD.text = str(self.player2.SkillCooldown) if self.player2.SkillCooldown > 0 else ''
-                p2CD.draw(self.screen)
+                p2SkillCD = self.font.render(str(self.player2.SkillCooldown) if self.player2.SkillCooldown > 0 else '',True,"Black")
+                p2SkillCDRect = p2SkillCD.get_rect()
+                p2SkillCDRect.center = (70,70)
+                self.screen.blit(p2SkillImage,p2CD)   
+                self.screen.blit(p2SkillCD,p2SkillCDRect)           
                 if(count % 60 == 0):
                     p2Score += 1
             else:
@@ -135,31 +157,26 @@ class Game:
             
             self.player1.draw(self.screen) 
             self.player2.draw(self.screen) 
+  
+            if self.player2.TimeCast > 0:
+                self.player2.skillCast()        
 
-            if(key[self.save['controls']['player2']['Skill']] == True and self.player2.SkillCooldown <= 0 and self.player2.isAlive): # meaning activate
-                self.player2.skillTrigger()
-            if self.player2.TimeCast > 0: # will draw the skill
-                self.player2.skillCast()
-            
-            # Will cool the skill and cast
-            if self.player2.SkillCooldown > 0 and count % 60 == 0:
-                self.player2.SkillCooldown -= 1
-
-            if self.player2.TimeCast > 0 and count % 60 == 0:
-                self.player2.TimeCast -= 1
-
-            if(key[self.save['controls']['player1']['Skill']] == True and self.player1.SkillCooldown <= 0 and self.player1.isAlive): # meaning activate
-                self.player1.skillTrigger()
-            if self.player1.TimeCast > 0: # will draw the skill
+            if self.player1.TimeCast > 0: 
                 self.player1.skillCast()
 
-            if self.player1.SkillCooldown > 0 and count % 60 == 0:
-                self.player1.SkillCooldown -= 1
-
-            if self.player1.TimeCast > 0 and count % 60 == 0:
-                self.player1.TimeCast -= 1
-            self.screen.blit(self.ground1,(0,620))
-            self.screen.blit(self.ground2,(0,260))
+            # Will cool the skill and cast
+            if count % 60 == 0:  
+                if self.player1.SkillCooldown > 0:
+                    self.player1.SkillCooldown -= 1
+                if self.player2.SkillCooldown > 0:
+                    self.player2.SkillCooldown -= 1
+                if self.player1.TimeCast > 0:
+                    self.player1.TimeCast -= 1
+                if self.player2.TimeCast > 0:
+                    self.player2.TimeCast -= 1
+                
+            self.screen.blit(self.groundImage,self.ground1)
+            self.screen.blit(self.groundImage,self.ground2)
             if count % (60 * 25) == 0:
                 if stage == 7:
                     continue
@@ -207,12 +224,12 @@ class Game:
             cdRect,congratsRect = cd.get_rect() , congrats.get_rect()
             cdRect.center = (1200,50)
             congratsRect.center = (640,180) if p1Score < p2Score else (640,540)
-            self.screen.fill("White")
+            self.screen.blit(self.bgImage, (0, 0)) 
 
             self.player1.draw(self.screen) 
             self.player2.draw(self.screen) 
-            self.screen.blit(self.ground1,(0,620))
-            self.screen.blit(self.ground2,(0,260))
+            self.screen.blit(self.groundImage,self.ground1)
+            self.screen.blit(self.groundImage,self.ground2)
             self.screen.blit(cd,cdRect)
             self.screen.blit(congrats,congratsRect)
             pygame.display.update()

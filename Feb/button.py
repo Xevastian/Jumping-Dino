@@ -10,10 +10,10 @@ class Button:
 
     def draw(self,screen):
         font = pygame.font.Font('FreeSansBold.ttf', 32) 
-        ButtonText = font.render(self.text,True,"Black")
+        ButtonText = font.render(self.text,True,(238,238,238))
         textRect = ButtonText.get_rect()
         textRect.center = (self.x,self.y)
-        pygame.draw.rect(screen,"Red", self.button)
+        pygame.draw.rect(screen,(216, 64, 64), self.button)
         screen.blit(ButtonText,textRect)
 
     
@@ -29,9 +29,9 @@ class SettingsButton(Button):
     
     def draw(self,screen):
         font = pygame.font.Font('FreeSansBold.ttf', 20) 
-        color = "Blue" if self.isActivated else "Red"
-        ButtonText = font.render(pygame.key.name(self.ctrl),True,"Black")
-        desc = font.render(self.text,True,"Black")
+        color = (118,171,174) if self.isActivated else (49,54,63)
+        ButtonText = font.render(pygame.key.name(self.ctrl),True,((238,238,238)))
+        desc = font.render(self.text,True,(238,238,238))
         textRect, descRect = ButtonText.get_rect(), desc.get_rect()
         textRect.center, descRect.center = (self.x,self.y), (self.x - self.size * 2.5 , self.y) 
         pygame.draw.rect(screen,color, self.button)
@@ -46,8 +46,8 @@ class SkillsButton(Button):
     
     def draw(self,screen):
         font = pygame.font.Font('FreeSansBold.ttf', 20) 
-        color = "Blue" if self.isActivated else "Red"
-        ButtonText = font.render(self.text,True,"Black")
+        color = (118,171,174) if self.isActivated else (49,54,63)
+        ButtonText = font.render(self.text,True,(238,238,238))
         textRect = ButtonText.get_rect()
         textRect.center = (self.x,self.y)
         pygame.draw.rect(screen,color, self.button)

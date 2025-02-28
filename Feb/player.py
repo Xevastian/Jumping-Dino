@@ -22,7 +22,7 @@ class Player():
             pygame.transform.flip(self.walk_images_r[1], True, False)
         ]
         self.animation_index = 0  # Track animation frame
-        self.animation_delay = 5  # Frames to wait before switching
+        self.animation_delay = 10  # Frames to wait before switching
         self.animation_counter = 0
         self.PlayerImage = self.walk_images_l[0]  # Start with left image
         self.player = self.PlayerImage.get_rect()
