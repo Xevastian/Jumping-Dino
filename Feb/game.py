@@ -99,7 +99,7 @@ class Game:
             self.screen.blit(score2,scoreRect2)
         
             # Computations and variable display
-            if self.player1.isHit(self.obs1.box) or self.player1.isHit(self.obs2.box) or (self.player1.isHit(self.player2.meteorLoc()) and self.player2.TimeCast > 0):
+            if (self.player1.isHit(self.obs1.box) and self.obs1.count != 0) or (self.player1.isHit(self.obs2.box) and self.obs2.count != 0) or (self.player1.isHit(self.player2.meteorLoc()) and self.player2.TimeCast > 0):
                 if(self.player1.skill == 'shield' and self.player1.TimeCast > 0):
                     self.player1.isAlive = True
                 else:
@@ -116,7 +116,7 @@ class Game:
             else:
                 self.screen.blit(self.text, self.textRect1) 
             
-            if self.player2.isHit(self.obs3.box) or self.player2.isHit(self.obs4.box) or (self.player2.isHit(self.player1.meteorLoc()) and self.player1.TimeCast > 0):
+            if (self.player2.isHit(self.obs3.box) and self.obs3.count != 0) or (self.player2.isHit(self.obs4.box) and self.obs4.count != 0) or (self.player2.isHit(self.player1.meteorLoc()) and self.player1.TimeCast > 0):
                 if(self.player2.skill == 'shield' and self.player2.TimeCast > 0):
                     self.player2.isAlive = True
                 else:
