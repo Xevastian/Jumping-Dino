@@ -36,8 +36,8 @@ def get_SkillButtons():
     buttons = []
     active = save['skill']
     for i,j in enumerate(actions):
-        x = 180 if i < 3 else 480
-        y  = 520 + (i * 75) if i < 3 else 520 + ((i - 3) * 75)
+        x = 690 if i < 3 else 890
+        y  = 220 + (i * 75) if i < 3 else 220 + ((i - 3) * 75)
         role = 'player1' if i < 3 else 'player2'
         button = SkillsButton(x,y,45,j[2:])
         if active[role] == j[2:].lower():
@@ -51,7 +51,6 @@ def settings():
     font = pygame.font.Font('FreeSansBold.ttf', 20) 
     p1Text, p2Text = font.render("Player 1", True, "Black"), font.render("Player 2", True, "Black")
     p1Rect,p2Rect = p1Text.get_rect(), p2Text.get_rect()
-    p1Rect.center,p2Rect.center = (180,180),(480,180)
     skillsButton = get_SkillButtons()
 
     buttons = get_buttons()
@@ -92,6 +91,10 @@ def settings():
             button.draw(screen)
         for button in skillsButton:
             button.draw(screen)
+        p1Rect.center,p2Rect.center = (180,180),(480,180)
+        screen.blit(p1Text,p1Rect)
+        screen.blit(p2Text,p2Rect)
+        p1Rect.center,p2Rect.center = (690,180),(890,180)
         screen.blit(p1Text,p1Rect)
         screen.blit(p2Text,p2Rect)
         pygame.display.update()

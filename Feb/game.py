@@ -90,12 +90,6 @@ class Game:
                     if(event.key == p2Key and self.player2.SkillCooldown < 1 and self.player2.isAlive): # meaning activate
                         self.player2.skillTrigger()
                         print('hey')
-            
-            # Movements
-            self.player1.move(key,self.screen)
-            self.player1.jump()
-            self.player2.move(key,self.screen)
-            self.player2.jump()
 
             # Display
             score1 = self.font.render(str(p1Score),True,"Black")
@@ -108,6 +102,53 @@ class Game:
             self.screen.blit(score1,scoreRect1)
             self.screen.blit(score2,scoreRect2)
         
+            # Will cool the skill and cast
+            if count % 60 == 0:  
+                if self.player1.SkillCooldown > 0:
+                    self.player1.SkillCooldown -= 1
+                if self.player2.SkillCooldown > 0:
+                    self.player2.SkillCooldown -= 1
+                if self.player1.TimeCast > 0:
+                    self.player1.TimeCast -= 1
+                if self.player2.TimeCast > 0:
+                    self.player2.TimeCast -= 1
+                
+            if count % (60 * 25) == 0:
+                if stage == 7:
+                    continue
+                ticks += 10
+                stage += 1
+                if stage == 2:
+                    self.obs1.level = [1,3]
+                    self.obs2.level = [1,3]
+                    self.obs3.level = [1,3]
+                    self.obs4.level = [1,3]
+                elif stage == 3:
+                    self.obs1.level = [2,3]
+                    self.obs2.level = [2,3]
+                    self.obs3.level = [2,3]
+                    self.obs4.level = [2,3]
+                elif stage == 3:
+                    self.obs1.level = [3,3]
+                    self.obs2.level = [3,3]
+                    self.obs3.level = [3,3]
+                    self.obs4.level = [3,3]
+                elif stage == 4:
+                    self.obs1.level = [3,4]
+                    self.obs2.level = [3,4]
+                    self.obs3.level = [3,4]
+                    self.obs4.level = [3,4]
+                elif stage == 5:
+                    self.obs1.speed = [6,7]
+                    self.obs2.speed = [6,7]
+                    self.obs3.speed = [6,7]
+                    self.obs4.speed = [6,7]
+                elif stage == 6:
+                    self.obs1.speed = [6,8]
+                    self.obs2.speed = [6,8]
+                    self.obs3.speed = [6,8]
+                    self.obs4.speed = [6,8]                    
+                print(f'Stage: {stage}')
             # Computations and variable display
             if (self.player1.isHit(self.obs1.box) and self.obs1.count != 0) or (self.player1.isHit(self.obs2.box) and self.obs2.count != 0) or (self.player1.isHit(self.player2.meteorLoc()) and self.player2.TimeCast > 0):
                 if(self.player1.skill == 'shield' and self.player1.TimeCast > 0):
@@ -155,6 +196,12 @@ class Game:
             else:
                 self.screen.blit(self.text, self.textRect2) 
             
+            # Movements
+            self.player1.move(key,self.screen)
+            self.player1.jump()
+            self.player2.move(key,self.screen)
+            self.player2.jump()
+            
             self.player1.draw(self.screen) 
             self.player2.draw(self.screen) 
   
@@ -163,56 +210,9 @@ class Game:
 
             if self.player1.TimeCast > 0: 
                 self.player1.skillCast()
-
-            # Will cool the skill and cast
-            if count % 60 == 0:  
-                if self.player1.SkillCooldown > 0:
-                    self.player1.SkillCooldown -= 1
-                if self.player2.SkillCooldown > 0:
-                    self.player2.SkillCooldown -= 1
-                if self.player1.TimeCast > 0:
-                    self.player1.TimeCast -= 1
-                if self.player2.TimeCast > 0:
-                    self.player2.TimeCast -= 1
-                
+            
             self.screen.blit(self.groundImage,self.ground1)
             self.screen.blit(self.groundImage,self.ground2)
-            if count % (60 * 25) == 0:
-                if stage == 7:
-                    continue
-                ticks += 10
-                stage += 1
-                if stage == 2:
-                    self.obs1.level = [1,3]
-                    self.obs2.level = [1,3]
-                    self.obs3.level = [1,3]
-                    self.obs4.level = [1,3]
-                elif stage == 3:
-                    self.obs1.level = [2,3]
-                    self.obs2.level = [2,3]
-                    self.obs3.level = [2,3]
-                    self.obs4.level = [2,3]
-                elif stage == 3:
-                    self.obs1.level = [3,3]
-                    self.obs2.level = [3,3]
-                    self.obs3.level = [3,3]
-                    self.obs4.level = [3,3]
-                elif stage == 4:
-                    self.obs1.level = [3,4]
-                    self.obs2.level = [3,4]
-                    self.obs3.level = [3,4]
-                    self.obs4.level = [3,4]
-                elif stage == 5:
-                    self.obs1.speed = [6,7]
-                    self.obs2.speed = [6,7]
-                    self.obs3.speed = [6,7]
-                    self.obs4.speed = [6,7]
-                elif stage == 6:
-                    self.obs1.speed = [6,8]
-                    self.obs2.speed = [6,8]
-                    self.obs3.speed = [6,8]
-                    self.obs4.speed = [6,8]                    
-                print(f'Stage: {stage}')
             pygame.display.update()
             self.clock.tick(ticks)
             

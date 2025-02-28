@@ -31,7 +31,7 @@ class SettingsButton(Button):
         font = pygame.font.Font('FreeSansBold.ttf', 20) 
         color = (118,171,174) if self.isActivated else (49,54,63)
         ButtonText = font.render(pygame.key.name(self.ctrl),True,((238,238,238)))
-        desc = font.render(self.text,True,(238,238,238))
+        desc = font.render(self.text,True,(49,54,63))
         textRect, descRect = ButtonText.get_rect(), desc.get_rect()
         textRect.center, descRect.center = (self.x,self.y), (self.x - self.size * 2.5 , self.y) 
         pygame.draw.rect(screen,color, self.button)
