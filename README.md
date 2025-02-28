@@ -5,8 +5,8 @@ Test your reflexes and strategy in **Local PvP Python Game**, a fast-paced **loc
 ## 🎮 Features
 - **Local 1v1 PvP gameplay** – Battle your friends on the same machine!
 - **Skill-based mechanics** – Enhance quick decision-making skills and reaction time.
-- **Dynamic controls** – Responsive input for precise movements and attacks. You can change your key binds in the settings for a more comfortable user experience
-- **Simple yet engaging graphics** – Enjoy a clean and functional visual design. (On Going)
+- **Dynamic controls** – Responsive input for precise movements and attacks. You can change your key binds in the settings for a more comfortable user experience.
+- **Simple yet engaging graphics** – Enjoy a clean and functional visual design. *(On Going)*
 
 ## 🚀 Getting Started
 
@@ -28,15 +28,25 @@ This program is written in Python 3.13.2. You may also need an additional librar
    python Main.py
    ```
 
-## 🛠️ How It Works
+## 🧐 How It Works
 - **Movement & Attacks** – Players control their characters using designated keys.
 - **Attack Timing & Defense** – Dodge, block, or counterattack based on timing.
 - **Power-ups & Abilities** – Enhance gameplay with special moves.
 
+## 📈 Screenshots
+### Main Menu
+![Main Menu](screenshots/menu.png)
+
+### Gameplay
+![Gameplay](screenshots/game.png)
+
+### Settings
+![Settings](screenshots/settings.png)
+
 ## 🎯 Master the Game
 Hone your skills and challenge your friends to see who dominates the arena!
 
-## 📜 License
+## 🌟 License
 This project is licensed under the **MIT License**. Feel free to modify and share it!
 
 ## 🤝 Contributing
