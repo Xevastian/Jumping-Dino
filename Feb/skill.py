@@ -7,12 +7,12 @@ class Skill:
         self.location = location
         self.screen = screen
         self.meteorAttack = Meteor(location)
-        
+        self.blind_image = pygame.image.load('image/attack2.png')
+        self.blind_image = pygame.transform.scale(self.blind_image, (600, 260))
 
     def blind(self):
         y = 0 if self.location[1] > 360 else 360
-        box = pygame.Rect(self.location[0] - 300, y, 600, 260)
-        pygame.draw.rect(self.screen,"Black",box)
+        self.screen.blit(self.blind_image, (self.location[0] - 300, y))
             
     def meteor(self):
         self.meteorAttack.draw(self.screen)
