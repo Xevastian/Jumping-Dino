@@ -23,17 +23,16 @@ class Obstacle():
         self.image3l = pygame.transform.flip(self.image3r, True, False)
         self.image4r = pygame.image.load('image/LEN4.png')
         self.image4l = pygame.transform.flip(self.image4r, True, False)
-        
         self.update_image()
-        
-        self.box = self.boxImg.get_rect()
-        self.box.center = (self.x, self.y)
     
     def update_image(self):
         if self.dir == 1:  # Moving left
             self.boxImg = [self.image1l, self.image2l, self.image3l, self.image4l][self.count - 1]
         else:  # Moving right
             self.boxImg = [self.image1r, self.image2r, self.image3r, self.image4r][self.count - 1]
+
+        self.boxImg = pygame.transform.scale(self.boxImg, (40 * self.count, 40))  
+        self.box = self.boxImg.get_rect(topleft=(self.x, self.y))  
 
     def draw(self, screen):
         if self.dir == 1 and self.x < -160 or self.dir == 0 and self.x > 1280:
@@ -44,9 +43,11 @@ class Obstacle():
             self.x = 1280 if self.dir == 1 else -160
             self.y = self.y_axis - 10 if self.height == 1 else self.y_axis + 40
             self.update_image()
+            self.boxImg = pygame.transform.scale(self.boxImg, (40 * self.count, 40))
 
-        self.box.center = (self.x, self.y)
+        self.box.topleft = (self.x, self.y) 
         self.x = self.x - self.s if self.dir == 1 else self.x + self.s
         if self.count == 0:
             return
         screen.blit(self.boxImg, self.box)
+        #pygame.draw.rect(screen, (255, 0, 0), self.box, 2)

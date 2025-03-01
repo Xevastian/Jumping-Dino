@@ -21,11 +21,12 @@ class Player():
             pygame.transform.flip(self.walk_images_r[0], True, False),
             pygame.transform.flip(self.walk_images_r[1], True, False)
         ]
-        self.animation_index = 0  # Track animation frame
-        self.animation_delay = 10  # Frames to wait before switching
+        self.animation_index = 0 
+        self.animation_delay = 10  
         self.animation_counter = 0
-        self.PlayerImage = self.walk_images_l[0]  # Start with left image
+        self.PlayerImage = pygame.transform.scale(self.walk_images_l[0], (40, 40)) 
         self.player = self.PlayerImage.get_rect()
+        self.player.size = (40,40)
         self.player.center = (x, y)
         self.skill = skill
         self.TimeCast = 0
@@ -43,13 +44,14 @@ class Player():
     def draw(self, screen):
         self.player.center = (self.x, self.y)
         screen.blit(self.PlayerImage, self.player)
+        #pygame.draw.rect(screen, (255, 0, 0), self.player, 2)
 
     def move(self, key, screen):
         if not self.isAlive:
             return
 
         w, h = screen.get_size()
-        moving = False  # Track movement
+        moving = False  
 
         if key[self.left] and self.x > 15:
             self.x -= self.speed
@@ -85,7 +87,8 @@ class Player():
                 self.jumpHeight = 12
 
     def isHit(self, enemy):
-        return self.player.colliderect(enemy)
+        #print(f"Player Rect: {self.player}, Enemy Rect: {enemy}")
+        return enemy.colliderect(self.player)
 
     def skillTrigger(self):
         if self.skill == 'shield':

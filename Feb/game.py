@@ -13,8 +13,8 @@ class Game:
     def __init__(self,screen,skill1,skill2):
         self.skillSave = load_save_skill()['skill']
         self.save = load_save()
-        self.start_time = time.monotonic()        # For counting scores
-        self.clock = pygame.time.Clock()          # For game ticks #60 frames every second
+        self.start_time = time.monotonic()        
+        self.clock = pygame.time.Clock()          
         self.bgImage = pygame.image.load('image/bg.png')
         self.x, self.y = 1280,720                       # Window size
         self.screen = screen
@@ -90,7 +90,11 @@ class Game:
                     if(event.key == p2Key and self.player2.SkillCooldown < 1 and self.player2.isAlive): # meaning activate
                         self.player2.skillTrigger()
                         print('hey')
-
+            # Movements
+            self.player1.move(key,self.screen)
+            self.player1.jump()
+            self.player2.move(key,self.screen)
+            self.player2.jump()
             # Display
             score1 = self.font.render(str(p1Score),True,"Black")
             scoreRect1 = score1.get_rect()
@@ -102,6 +106,53 @@ class Game:
             self.screen.blit(score1,scoreRect1)
             self.screen.blit(score2,scoreRect2)
         
+            # Computations and variable display
+            if (self.player1.isHit(self.obs1.box) and self.obs1.count != 0) or (self.player1.isHit(self.obs2.box) and self.obs2.count != 0) or (self.player1.isHit(self.player2.meteorLoc()) and self.player2.TimeCast > 0):
+                if(self.player1.skill == 'shield' and self.player1.TimeCast > 0):
+                    self.player1.isAlive = True
+                else:
+                    if self.player1.isAlive:
+                        time.sleep(3)
+                    self.player1.isAlive = False
+                    
+            if self.player1.isAlive:
+                self.player1.move(key,self.screen)
+                self.player1.jump()
+                self.obs1.draw(self.screen)
+                self.obs2.draw(self.screen)
+                p1SkillCD = self.font.render(str(self.player1.SkillCooldown) if self.player1.SkillCooldown > 0 else '',True,"Black")
+                p1SkillCDRect = p1SkillCD.get_rect()
+                p1SkillCDRect.center = (70,430)
+                self.screen.blit(p1SkillImage,p1CD)
+                self.screen.blit(p1SkillCD,p1SkillCDRect)
+                if(count % 60 == 0):
+                    p1Score += 1
+            else:
+                self.screen.blit(self.text, self.textRect1) 
+            
+            if (self.player2.isHit(self.obs3.box) and self.obs3.count != 0) or (self.player2.isHit(self.obs4.box) and self.obs4.count != 0) or (self.player2.isHit(self.player1.meteorLoc()) and self.player1.TimeCast > 0):
+                if(self.player2.skill == 'shield' and self.player2.TimeCast > 0):
+                    self.player2.isAlive = True
+                else:
+                    if self.player2.isAlive:
+                        time.sleep(3)
+                    self.player2.isAlive = False
+                    
+            if self.player2.isAlive:
+                self.player2.move(key,self.screen)
+                self.player2.jump()
+                self.obs3.draw(self.screen)
+                self.obs4.draw(self.screen)
+                p2SkillCD = self.font.render(str(self.player2.SkillCooldown) if self.player2.SkillCooldown > 0 else '',True,"Black")
+                p2SkillCDRect = p2SkillCD.get_rect()
+                p2SkillCDRect.center = (70,70)
+                self.screen.blit(p2SkillImage,p2CD)   
+                self.screen.blit(p2SkillCD,p2SkillCDRect)           
+                if(count % 60 == 0):
+                    p2Score += 1
+            else:
+                self.screen.blit(self.text, self.textRect2) 
+
             # Will cool the skill and cast
             if count % 60 == 0:  
                 if self.player1.SkillCooldown > 0:
@@ -149,58 +200,6 @@ class Game:
                     self.obs3.speed = [6,8]
                     self.obs4.speed = [6,8]                    
                 print(f'Stage: {stage}')
-            # Computations and variable display
-            if (self.player1.isHit(self.obs1.box) and self.obs1.count != 0) or (self.player1.isHit(self.obs2.box) and self.obs2.count != 0) or (self.player1.isHit(self.player2.meteorLoc()) and self.player2.TimeCast > 0):
-                if(self.player1.skill == 'shield' and self.player1.TimeCast > 0):
-                    self.player1.isAlive = True
-                else:
-                    if self.player1.isAlive:
-                        time.sleep(3)
-                    self.player1.isAlive = False
-                    
-            if self.player1.isAlive:
-                self.player1.move(key,self.screen)
-                self.player1.jump()
-                self.obs1.draw(self.screen)
-                self.obs2.draw(self.screen)
-                p1SkillCD = self.font.render(str(self.player1.SkillCooldown) if self.player1.SkillCooldown > 0 else '',True,"Black")
-                p1SkillCDRect = p1SkillCD.get_rect()
-                p1SkillCDRect.center = (70,430)
-                self.screen.blit(p1SkillImage,p1CD)
-                self.screen.blit(p1SkillCD,p1SkillCDRect)
-                if(count % 60 == 0):
-                    p1Score += 1
-            else:
-                self.screen.blit(self.text, self.textRect1) 
-            
-            if (self.player2.isHit(self.obs3.box) and self.obs3.count != 0) or (self.player2.isHit(self.obs4.box) and self.obs4.count != 0) or (self.player2.isHit(self.player1.meteorLoc()) and self.player1.TimeCast > 0):
-                if(self.player2.skill == 'shield' and self.player2.TimeCast > 0):
-                    self.player2.isAlive = True
-                else:
-                    if self.player2.isAlive:
-                        time.sleep(3)
-                    self.player2.isAlive = False
-                    
-            if self.player2.isAlive:
-                self.player2.move(key,self.screen)
-                self.player2.jump()
-                self.obs3.draw(self.screen)
-                self.obs4.draw(self.screen)
-                p2SkillCD = self.font.render(str(self.player2.SkillCooldown) if self.player2.SkillCooldown > 0 else '',True,"Black")
-                p2SkillCDRect = p2SkillCD.get_rect()
-                p2SkillCDRect.center = (70,70)
-                self.screen.blit(p2SkillImage,p2CD)   
-                self.screen.blit(p2SkillCD,p2SkillCDRect)           
-                if(count % 60 == 0):
-                    p2Score += 1
-            else:
-                self.screen.blit(self.text, self.textRect2) 
-            
-            # Movements
-            self.player1.move(key,self.screen)
-            self.player1.jump()
-            self.player2.move(key,self.screen)
-            self.player2.jump()
             
             self.player1.draw(self.screen) 
             self.player2.draw(self.screen) 
